@@ -49,4 +49,4 @@ Route::get('/project_code/select_projectCode_byDeptName/{dept_name}', 'Api\ApiPr
 Route::get('/department/textbox_department_ByDepartmentId/{dept_id}', 'Api\ApiDepartmentController@textboxDepartmentByDepartmentId')
 		->name('textboxDepartmentByDepartmentId');
 
-
+Route::get('/dtr_data',\Api\ApiDTRController::class."@getDtrData");

@@ -1,0 +1,141 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Table Fixed Header jQuery Plugin Example</title>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/paper/bootstrap.min.css">
+    <!-- CSS and JS for table fixed header -->
+    <link href='table-fixed-header.css' rel='stylesheet'>
+    <script src='table-fixed-header.js'></script>
+    <script src='duplicate_rows.js'></script>
+    <style>
+    body { background-color:#fafafa;}
+   #mynav {
+  top: 0;
+  position: fixed;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  z-index: 1030;
+  height:40px;
+  color:#fafafa;
+  background-color:#333;
+  text-align: center;
+  line-height:40px;
+}
+body { padding-top:60px; }
+    </style>
+  </head>
+  <body>
+    <div class='container'>
+      <h2 id='mynav'>Sticky Navbar</h2>
+      <h1>Table Fixed Header jQuery Plugin Example</h1>
+      <div class="jquery-script-ads" style="margin:30px auto;"><script type="text/javascript"><!--
+google_ad_client = "ca-pub-2783044520727903";
+/* jQuery_demo */
+google_ad_slot = "2780937993";
+google_ad_width = 728;
+google_ad_height = 90;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script></div>
+      <table class='table table-bordered table-striped table-fixed-header'>
+        <thead class='header'>
+          <tr>
+            <th colspan='1' rowspan='2'>
+              A title
+            </th>
+            <th colspan='3' rowspan='1'>
+              A multicolumn title
+            </th>
+            <th colspan='1' rowspan='2'>
+              Comment
+            </th>
+          </tr>
+          <tr>
+            <th colspan='1' rowspan='1'>
+              Sub1
+            </th>
+            <th colspan='1' rowspan='1'>
+              Sub2
+            </th>
+            <th colspan='1' rowspan='1'>
+              Sub3
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              Val1
+            </td>
+            <td>
+              Val2
+            </td>
+            <td>
+              Val3
+            </td>
+            <td>
+              Val4
+            </td>
+            <td>
+              Val5
+            </td>
+          </tr>
+          <tr>
+            <td colspan='1' rowspan='2'>
+              Bigval
+            </td>
+            <td>
+              Some1
+            </td>
+            <td>
+              Some1
+            </td>
+            <td>
+              Some1
+            </td>
+            <td colspan='1' rowspan='2'>
+              This is awesome
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Some2
+            </td>
+            <td>
+              Some2
+            </td>
+            <td>
+              Some2
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <script language='javascript' type='text/javascript'>
+      $(document).ready(function(){
+      $('.table-fixed-header').fixedHeader();
+      });
+    </script>
+    <script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-36251023-1']);
+  _gaq.push(['_setDomainName', 'jqueryscript.net']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  </body>
+</html>
