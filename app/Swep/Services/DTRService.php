@@ -22,13 +22,13 @@ use Rats\Zkteco\Lib\ZKTeco;
 class DTRService extends BaseService
 {
     public function extract($ip){
-        try{
-            $last_uid = 0;
-            $last_from_device = 0;
-            $attendances = $this->fetchAttendance($ip);
-            $serial_no = $this->getSerialNo($ip);
-            $last_uid_db = BiometricDevices::query()->where('serial_no','=',$serial_no)->first();
+        $last_uid = 0;
+        $last_from_device = 0;
+        $attendances = $this->fetchAttendance($ip);
+        $serial_no = $this->getSerialNo($ip);
+        $last_uid_db = BiometricDevices::query()->where('serial_no','=',$serial_no)->first();
 
+        try{
             if(!empty($last_uid_db)){
                 if($last_uid_db->last_uid == null){
                     $last_uid = 0;
@@ -69,6 +69,8 @@ class DTRService extends BaseService
                     $cl->save();
 
                     $last_uid_db->last_uid = $last_from_device;
+                    $last_uid_db->last_state = 1;
+                    $last_uid_db->last_state_timestamp = Carbon::now();
                     $last_uid_db->update();
                     return $string;
                 }
@@ -77,6 +79,10 @@ class DTRService extends BaseService
                 $cl->log = $string;
                 $cl->type = 1;
                 $cl->save();
+
+                $last_uid_db->last_state = -1;
+                $last_uid_db->last_state_timestamp = Carbon::now();
+                $last_uid_db->update();
                 return 'Error doing insert';
             }else{
                 $string = 'From device: '.$ip.' | No new attendance';
@@ -84,6 +90,10 @@ class DTRService extends BaseService
                 $cl->log = $string;
                 $cl->type = 1;
                 $cl->save();
+
+                $last_uid_db->last_state = 1;
+                $last_uid_db->last_state_timestamp = Carbon::now();
+                $last_uid_db->update();
 
                 return 'No new attendance found';
             }
@@ -94,6 +104,10 @@ class DTRService extends BaseService
             $cl->log = $string;
             $cl->type = 0;
             $cl->save();
+
+            $last_uid_db->last_state = -1;
+            $last_uid_db->last_state_timestamp = Carbon::now();
+            $last_uid_db->update();
 
             echo 'Device might be off: '.$e->getMessage();
         }

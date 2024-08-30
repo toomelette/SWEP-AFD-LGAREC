@@ -40,15 +40,14 @@ class SanitizeBiometricDevice extends Command
     protected $DTRService;
     public function handle(DTRService $DTRService)
     {
-        $bds = BiometricDevices::query()->where('status' ,'=',1)->get();
+        $bds = BiometricDevices::query()
+            ->where('status' ,'=',1)
+            ->where('last_state','=',1)
+            ->get();
         if(!empty($bds)){
             foreach ($bds as $bd){
                 $ip = $bd->ip_address;
-                try{
-                    $DTRService->clearAttendance($ip);
-                }catch (\Exception $e){
-
-                }
+                $DTRService->clearAttendance($ip);
             }
         }
     }
