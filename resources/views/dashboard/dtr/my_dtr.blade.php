@@ -131,7 +131,7 @@
 
 @section('modals')
     {!! __html::blank_modal('dtr_modal','lg') !!}
-    <div class="modal fade" id="print_dtr_modal" tabindex="-1" role="dialog" aria-labelledby="print_dtr_modal_label">
+    <div class="modal fade" id="print_dtr_modal" role="dialog" aria-labelledby="print_dtr_modal_label">
       <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content">
             <form id="print_dtr_form">
@@ -168,6 +168,12 @@
 
 @section('scripts')
     <script type="text/javascript">
+
+        $('#dtr_modal').on('shown.bs.modal', function() {
+            $(document).off('focusin.modal');
+        });
+
+
         function dt_draw() {
             users_table.draw(false);
         }

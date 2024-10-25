@@ -55,7 +55,6 @@ class DTRService extends BaseService
                             'location' => $server_location,
                         ]);
                     }
-
                 }
             }
 
