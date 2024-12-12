@@ -117,7 +117,7 @@ class DTRService extends BaseService
                     $last_uid_db->update();
 
                     if($forceClearDevice == true){
-//                        $this->clearAttendance($ip);
+                        $this->clearAttendance($ip);
                     }
                     return $string;
                 }
@@ -451,5 +451,22 @@ class DTRService extends BaseService
         return  preg_replace('/[\x00-\x09\x0B\x0C\x0E-\x1F\x7F]/', '', Helper::getStingAfterChar($zk->serialNumber(),'='));
     }
 
-
+    public function reset(){
+        $biometrics = BiometricDevices::query()
+            ->where('status','=',1)
+            ->get();
+        $logs = [];
+        foreach ($biometrics as $biometric){
+            $zk = new ZKTeco($biometric->ip_address);
+            $zk->connect();
+            $zk->setTime(Carbon::now()->format(Carbon::now()->format('Y-m-d H:i:s')));
+            array_push($logs,[
+                'log' => 'Time reset successful: '.$biometric->ip_address,
+                'type' => 4,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ]);
+        }
+        CronLogs::insert($logs);
+    }
 }
