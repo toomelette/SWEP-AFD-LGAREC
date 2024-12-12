@@ -42,10 +42,20 @@ class DTRService extends BaseService
             $server_location = SuSettings::query()->where('setting','=','server_location')->first()->string_value;
 
             $attendances_array = [];
-            for ($x = $last_uid+1 ; $x <= $last_from_device ; $x++){
-                if(isset($attendances[$x])){
-                    if(isset($this->biometric_values(true)[$attendances[$x]['type']])){
-                        array_push($attendances_array,[
+            $forceClearDevice = false;
+
+            //IF LAST FROM DEVICE IS LESS THAN THE LAST UID IN DATABASE, THE DEVICE MAY HAVE RESET ITS ID BACK TO 1
+            if($last_from_device < $last_uid){
+                //loop from last id + 1 to the last id before 0 index
+                $while = $last_uid+1;
+                while (isset($attendances[$while])){
+                    $while++;
+                }
+                $while = $while - 1;
+                for ($x = $last_uid+1 ; $x <= $while ; $x++){
+
+                    if(isset($attendances[$x])){
+                        $attendances_array[] = [
                             'uid' => $attendances[$x]['uid'],
                             'user' => $attendances[$x]['id'],
                             'state' => $attendances[$x]['state'],
@@ -53,7 +63,41 @@ class DTRService extends BaseService
                             'type' => $attendances[$x]['type'],
                             'device' => $serial_no,
                             'location' => $server_location,
-                        ]);
+                        ];
+                    }
+                }
+
+                //loop from 0 to last uid less 20000
+                for ($x = 0 ; $x < $last_uid - 20000 ; $x++){
+                    if(isset($attendances[$x])){
+                        $attendances_array[] = [
+                            'uid' => $attendances[$x]['uid'],
+                            'user' => $attendances[$x]['id'],
+                            'state' => $attendances[$x]['state'],
+                            'timestamp' => $attendances[$x]['timestamp'],
+                            'type' => $attendances[$x]['type'],
+                            'device' => $serial_no,
+                            'location' => $server_location,
+                        ];
+                    }
+                }
+                //clear device after insert
+                $forceClearDevice = true;
+            }else{
+                for ($x = $last_uid+1 ; $x <= $last_from_device ; $x++){
+                    if(isset($attendances[$x])){
+                        if(isset($this->biometric_values(true)[$attendances[$x]['type']])){
+                            $attendances_array[] = [
+                                'uid' => $attendances[$x]['uid'],
+                                'user' => $attendances[$x]['id'],
+                                'state' => $attendances[$x]['state'],
+                                'timestamp' => $attendances[$x]['timestamp'],
+                                'type' => $attendances[$x]['type'],
+                                'device' => $serial_no,
+                                'location' => $server_location,
+                            ];
+                        }
+
                     }
                 }
             }
@@ -71,6 +115,10 @@ class DTRService extends BaseService
                     $last_uid_db->last_state = 1;
                     $last_uid_db->last_state_timestamp = Carbon::now();
                     $last_uid_db->update();
+
+                    if($forceClearDevice == true){
+                        $this->clearAttendance($ip);
+                    }
                     return $string;
                 }
                 $string = 'Error doing insert';
@@ -96,6 +144,7 @@ class DTRService extends BaseService
 
                 return 'No new attendance found';
             }
+
 
         }catch (\Exception $e){
             $string = 'Error saving data from device: '.$ip.' | '.$e->getMessage();
