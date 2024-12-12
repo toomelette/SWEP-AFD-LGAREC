@@ -117,7 +117,7 @@ class DTRService extends BaseService
                     $last_uid_db->update();
 
                     if($forceClearDevice == true){
-                        $this->clearAttendance($ip);
+//                        $this->clearAttendance($ip);
                     }
                     return $string;
                 }
