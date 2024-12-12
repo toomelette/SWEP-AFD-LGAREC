@@ -109,7 +109,7 @@ class BiometricDevicesController extends Controller
         }
 
 
-        $device = BiometricDevices::with('attendances')->where('id','=',$request->id)->first();
+        $device = BiometricDevices::with('attendances')->where('id','=',$request->id)->toSql();
         return $device;
         if (empty($device)){
             abort(503,"Device not found");
