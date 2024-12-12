@@ -108,9 +108,9 @@ class BiometricDevicesController extends Controller
             abort(503,'Missing parameters');
         }
 
-        return 1;
-        $device = BiometricDevices::with('attendances')->find($request->id);
 
+        $device = BiometricDevices::with('attendances')->find($request->id);
+        return 1;
         if (empty($device)){
             abort(503,"Device not found");
         }
