@@ -109,6 +109,7 @@ class BiometricDevicesController extends Controller
 
 
         $device = BiometricDevices::with('attendances')->find($request->id);
+        return 1;
         if (empty($device)){
             abort(503,"Device not found");
         }
@@ -117,7 +118,7 @@ class BiometricDevicesController extends Controller
         }
         $ip_address = $device->ip_address;
         $employees_arr = [];
-        return 1;
+
         $perm_e = Employee::query()->select('firstname','middlename','lastname','employee_no','biometric_user_id')->where('biometric_user_id', '!=' ,0);
 
         $union = $perm_e->get();
