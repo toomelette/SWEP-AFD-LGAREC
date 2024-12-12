@@ -81,6 +81,7 @@ class BiometricDevicesController extends Controller
         return $serve;
     }
     public function attendances(Request $request){
+        return 1;
         if($request->has('draw')){
 
             if ($request->has('device')){
@@ -109,7 +110,7 @@ class BiometricDevicesController extends Controller
 
 
         $device = BiometricDevices::with('attendances')->find($request->id);
-        return 1;
+
         if (empty($device)){
             abort(503,"Device not found");
         }
