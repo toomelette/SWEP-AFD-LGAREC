@@ -81,7 +81,7 @@ class BiometricDevicesController extends Controller
         return $serve;
     }
     public function attendances(Request $request){
-        return 1;
+
         if($request->has('draw')){
 
             if ($request->has('device')){
@@ -108,7 +108,7 @@ class BiometricDevicesController extends Controller
             abort(503,'Missing parameters');
         }
 
-
+        return 1;
         $device = BiometricDevices::with('attendances')->find($request->id);
 
         if (empty($device)){
