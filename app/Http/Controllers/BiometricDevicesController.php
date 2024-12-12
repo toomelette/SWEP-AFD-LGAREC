@@ -118,9 +118,8 @@ class BiometricDevicesController extends Controller
         $employees_arr = [];
 
         $perm_e = Employee::query()->select('firstname','middlename','lastname','employee_no','biometric_user_id')->where('biometric_user_id', '!=' ,0);
-        $jo_e = JoEmployees::query()->select('firstname','middlename','lastname','employee_no','biometric_user_id')->where('biometric_user_id' ,'!=' ,0);
 
-        $union = $jo_e->union($perm_e)->get();
+        $union = $perm_e->get();
 
         foreach ($union as $employee){
             $employees_arr[$employee->biometric_user_id] = $employee;
