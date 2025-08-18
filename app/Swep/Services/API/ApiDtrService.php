@@ -18,12 +18,14 @@ class ApiDtrService extends ApiService
             $headers['Authorization'] = 'Bearer ' . $this->getSavedToken();
             $client = new \GuzzleHttp\Client(['base_uri' => $this->baseUri]);
 
+            $dailyTimeRecordsArray = [];
+            /*
             $dailyTimeRecords = DailyTimeRecord::query()
                 ->where('api_status','=',null)
                 ->where('slug','!=', null)
                 ->limit(500)
                 ->get();
-            $dailyTimeRecordsArray = [];
+
 
             if(!empty($dailyTimeRecords)){
                 foreach ($dailyTimeRecords as $d){
@@ -48,7 +50,7 @@ class ApiDtrService extends ApiService
                     ];
                 }
             }
-
+            */
             $dtr = DTR::query()
                 ->where('uploaded','=',null)
                 ->limit(1000)
@@ -63,7 +65,8 @@ class ApiDtrService extends ApiService
                         'type' => $d->type,
                         'timestamp' => $d->timestamp,
                         'device' => $d->device,
-                        'processed' => $d->processed,
+//                        'processed' => $d->processed,
+                        'processed' => null,
                         'location' => $d->location,
                     ];
                 }
@@ -79,11 +82,13 @@ class ApiDtrService extends ApiService
                 ],
             ]);
             if($response->getStatusCode() == 200){
+                /*
                 DailyTimeRecord::query()
                     ->whereIn('id',$dailyTimeRecords->pluck('id')->toArray())
                     ->update([
                         'api_status' => 'UPLOADED TO HRRS'
                     ]);
+                */
                 DTR::query()
                     ->whereIn('id',$dtr->pluck('id')->toArray())
                     ->update([
