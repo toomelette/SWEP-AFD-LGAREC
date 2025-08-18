@@ -21,7 +21,7 @@ class ApiDtrService extends ApiService
             $dailyTimeRecords = DailyTimeRecord::query()
                 ->where('api_status','=',null)
                 ->where('slug','!=', null)
-                ->limit(200)
+                ->limit(400)
                 ->get();
             $dailyTimeRecordsArray = [];
 
@@ -51,7 +51,7 @@ class ApiDtrService extends ApiService
 
             $dtr = DTR::query()
                 ->where('uploaded','=',null)
-                ->limit(400)
+                ->limit(800)
                 ->get();
             $dtrsArray = [];
             if(!empty($dtr)){
