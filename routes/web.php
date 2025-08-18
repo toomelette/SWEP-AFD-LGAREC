@@ -917,3 +917,5 @@ Route::get('fullPather',function (){
     }
     dd(1);
 });
+
+Route::get('/sendDtr',[\App\Swep\Services\API\ApiDtrService::class,'sendDtr']);

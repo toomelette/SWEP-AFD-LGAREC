@@ -39,7 +39,7 @@ return [
     |
     */
 
-    'debug' => $_SERVER['REMOTE_ADDR'] == env('DEBUG_IP_ADDRESS') ? true : env('APP_DEBUG' ),
+    'debug' => env('DEBUG_IP_ADDRESS') ? true : env('APP_DEBUG' ),
 
 
     /*
